@@ -24,6 +24,7 @@ export function formatNumber(value: number, options?: NumberFormatOptions): stri
 // НОВЕ: клас Logger з літеральним типом рівня логування
 
 export type LogLevel = 'silent' | 'info' | 'debug';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class Logger {
   constructor(private level: LogLevel) {}
 
