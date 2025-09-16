@@ -3,10 +3,12 @@ const tseslint = require('typescript-eslint');
 const prettier = require('eslint-config-prettier');
 
 module.exports = [
-  { ignores: ['**/*.cjs'] }, // ігноруємо конфігураційні файли у CJS
-  js.configs.recommended, // базові правила JS
-  ...tseslint.configs.recommended, // базові правила TS
-  prettier, // відключення конфліктів з Prettier
+  {
+    ignores: ['dist/**', 'node_modules/**', '**/*.cjs'], // все игноры только здесь!
+  },
+  js.configs.recommended, // базовые правила JS
+  ...tseslint.configs.recommended, // базовые правила TS
+  prettier, // выключение конфликтов с Prettier
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -19,10 +21,9 @@ module.exports = [
     plugins: {
       '@typescript-eslint': tseslint.plugin,
     },
-
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
       'no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   },
 ];
