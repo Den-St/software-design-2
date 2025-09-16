@@ -2,10 +2,10 @@ import { config } from './config';
 
 // базові функції
 
-export function add(a: number, b: number): number {
-  return a + b;
+export function add(values: number[]): number {
+  return values.reduce((acc, x) => acc + x, 0);
 }
-
+console.log('sum(2.0 ok):', add([2, 3, 4]));
 export function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
