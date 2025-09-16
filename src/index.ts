@@ -1,7 +1,7 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { config } from './config';
 
-// попередні функції
+// базові функції
+
 export function add(a: number, b: number): number {
   return a + b;
 }
@@ -10,31 +10,32 @@ export function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+// складний тип і форматер (дефолт з APP_PRECISION)
 export type NumberFormatOptions = {
   precision?: number;
   locale?: string;
 };
 
 export function formatNumber(value: number, options?: NumberFormatOptions): string {
-  const precision = options?.precision ?? Number(process.env.APP_PRECISION ?? 2);
+  const precision = options?.precision ?? config.APP_PRECISION;
   return value.toFixed(precision);
 }
 
-// НОВЕ: інтерфейс і generic-функція
+// НОВЕ: клас Logger з літеральним типом рівня логування
 
-export interface User {
-  id: number;
-  name: string;
-}
+export type LogLevel = 'silent' | 'info' | 'debug';
+export class Logger {
+  constructor(private level: LogLevel) {}
 
-export function groupBy<T>(arr: T[], key: keyof T): Record<string, T[]> {
-  return arr.reduce(
-    (acc, item) => {
-      const group = String(item[key]);
-      acc[group] = acc[group] ?? [];
-      acc[group].push(item);
-      return acc;
-    },
-    {} as Record<string, T[]>,
-  );
+  info(msg: string): void {
+    if (this.level !== 'silent') {
+      console.log('[INFO]', msg);
+    }
+  }
+
+  debug(msg: string): void {
+    if (this.level === 'debug') {
+      console.log('[DEBUG]', msg);
+    }
+  }
 }
